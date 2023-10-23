@@ -192,8 +192,9 @@ In addition to provisioning and configuring the required services, the Terraform
 In order to make the solution work with new generation GPU of Nvidia L4, we have upgraded CUDA version to 11.8.0 in the Dockerfile. However, it's found such container image will cause Relax step failure in the pipelines. So before a formal fix is provied, please follow the steps below to create two containter images, one for CUDA 11.1.1 and the other for CUDA 11.8.0. When prediting proteins with A100, T4 or V100, use the former while use the latter with L4. 
 
 ```bash
+AR_REPO_NAME=af_repo
 PROJECT_ID=$(gcloud config list --format 'value(core.project)')
-IMAGE_URI=gcr.io/${PROJECT_ID}/alphafold-components
+IMAGE_URI=${REGION}-docker.pkg.dev/${PROJECT_ID}/${AR_REPO_NAME}/alphafold-components
 
 cd ${SOURCE_ROOT}
 gcloud builds submit --timeout "2h" --tag ${IMAGE_URI} . --machine-type=e2-highcpu-8
